@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Mẫu</title>
+    <title>Website</title>
     <style>
         body {
             font-family: sans-serif;
-            margin: 50;
+            margin: 50px;
             padding: 0;
             background-color: #f4f4f4;
         }
@@ -17,6 +17,10 @@
             color: #fff;
             padding: 10px 20px;
             text-align: center;
+        }
+
+        nav {
+            margin: 20px 0;
         }
 
         #menu ul {
@@ -79,21 +83,85 @@
             width: 100%;
         }
 
-        /* Mobile responsiveness */
         @media (max-width: 600px) {
             #menu ul li {
                 display: block;
             }
+        }
+
+        h2 {
+            color: #05474f;
+        }
+
+        .testimonial {
+            background-color: #e7f7f9;
+            padding: 10px;
+            border-left: 4px solid #05474f;
+            margin: 10px 0;
+        }
+
+        .cta-button {
+            background-color: #05474f;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: #2d6969;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .gallery img {
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        .confirmation-message {
+            display: none;
+            margin-top: 10px;
+            color: green;
+        }
+
+        .faq {
+            background-color: #e7f7f9;
+            margin: 10px 0;
+            padding: 10px;
+            border-left: 4px solid #05474f;
+        }
+
+        .animal-profile {
+            background-color: #f0f8ff;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #05474f;
+        }
+
+        .event-calendar {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #05474f;
+            border-radius: 5px;
+            margin: 20px 0;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Website </h1>
+    <h1>Website</h1>
 </header>
 
-<div id="menu">
+<nav id="menu">
     <ul>
         <li><a href="#" onclick="helloWorld()">Trang chủ</a></li>
         <li>
@@ -102,39 +170,112 @@
                 <li><a href="https://www.facebook.com/profile.php?id=100088268732998">Facebook</a></li>
                 <li><a href="https://zalo.me/0343228004">Zalo</a></li>
                 <li><a href="https://www.tiktok.com">TikTok</a></li>
-                <li><a href="mailto://lyvanquyen2k4@gmail.com">Email</a></li>
-                <li><a href="tel://0343228004">Hotline</a></li>
+                <li><a href="mailto:lyvanquyen2k4@gmail.com">Email</a></li>
+                <li><a href="tel:0343228004">Hotline</a></li>
             </ul>
         </li>
         <li><a href="https://fb.com/0trantien0">Hỏi đáp</a></li>
-        <li><a href="ttps://www.facebook.com/profile.php?id=100088268732998">Liên hệ</a></li>
+        <li><a href="https://www.facebook.com/profile.php?id=100088268732998">Liên hệ</a></li>
     </ul> 
-</div>
+</nav>
 
 <main>
     <h2>Chào Mừng Đến Với Website Của Chúng Tôi</h2>
-    <img src="https://kenh14cdn.com/thumb_w/600/2016/140808122043-01-selfie-monkey-0808-exlarge-169-1454603234252-crop-1454603249987-crop-1454603268876.jpeg" alt="đây là hình ảnh lý van quyến" srcset="" width="350">
-    <h1>Quyến </h1>
-    <p>Quyến là một loài động vật có vú, đi bằng hai chân và thích selfie</p>
-
-    <h2>Thông Tin Liên Hệ</h2>
-    <p>Để biết thêm thông tin, vui lòng liên hệ với chúng tôi qua các kênh dưới đây:</p>
+    <img src="https://kenh14cdn.com/thumb_w/600/2016/140808122043-01-selfie-monkey-0808-exlarge-169-1454603234252-crop-1454603249987-crop-1454603268876.jpeg" alt="Một con khỉ đang selfie" width="350">
+    <h3>Khỉ</h3>
+    <p>Khỉ là một loài động vật có vú, đi bằng hai chân và thích selfie.</p>
+    
+    <h2>Chương Trình Cộng Đồng</h2>
+    <p>Chúng tôi tổ chức nhiều hoạt động cộng đồng để nâng cao nhận thức về bảo vệ động vật:</p>
     <ul>
-        <li>Email: lyvanquyen2k4@gmail.com</li>
-        <li>Điện thoại: 0343228004</li>
+        <li>Chương trình "Cứu trợ động vật": Giúp đỡ những động vật bị bỏ rơi.</li>
+        <li>Hội thảo bảo vệ động vật hoang dã: Chia sẻ kiến thức về các loài động vật đang gặp nguy hiểm.</li>
+        <li>Chương trình giáo dục cho trẻ em: Dạy trẻ về sự quan trọng của động vật trong hệ sinh thái.</li>
     </ul>
-</main>
 
+    <h2>Hình Ảnh Của Chúng Tôi</h2>
+    <div class="gallery">
+        <img src="https://example.com/image1.jpg" alt="Hình ảnh 1">
+        <img src="https://example.com/image2.jpg" alt="Hình ảnh 2">
+        <img src="https://example.com/image3.jpg" alt="Hình ảnh 3">
+        <img src="https://example.com/image4.jpg" alt="Hình ảnh 4">
+    </div>
+
+    <h2>Câu Hỏi Thường Gặp (FAQs)</h2>
+    <div class="faq">
+        <h3>Câu hỏi 1: Làm thế nào để tham gia chương trình cứu trợ động vật?</h3>
+        <p>Để tham gia, bạn có thể liên hệ với chúng tôi qua email hoặc hotline.</p>
+    </div>
+    <div class="faq">
+        <h3>Câu hỏi 2: Có thể tình nguyện cho các hoạt động không?</h3>
+        <p>Có! Chúng tôi luôn chào đón tình nguyện viên. Vui lòng liên hệ để biết thêm chi tiết.</p>
+    </div>
+
+    <h2>Thông Tin Về Động Vật</h2>
+    <div class="animal-profile">
+        <h3>Chó</h3>
+        <p>Chó là bạn đồng hành tuyệt vời của con người. Chúng rất trung thành và thông minh.</p>
+    </div>
+    <div class="animal-profile">
+        <h3>Mèo</h3>
+        <p>Mèo là những sinh vật độc lập và thường được yêu thích vì sự duyên dáng và dễ thương.</p>
+    </div>
+
+    <h2>Lịch Sự Kiện</h2>
+    <div class="event-calendar">
+        <h3>Sự kiện sắp tới</h3>
+        <ul>
+            <li>Ngày 10/10: Hội thảo bảo vệ động vật hoang dã</li>
+            <li>Ngày 20/10: Ngày hội từ thiện cho động vật</li>
+            <li>Ngày 25/10: Chương trình giáo dục cho trẻ em</li>
+        </ul>
+    </div>
+
+<h2>Ý Kiến Khách Hàng</h2>
+<div class="testimonial">
+    <p><strong>Lý Quyến:</strong> "Website rất hữu ích! Tôi đã học được nhiều điều thú vị về động vật."</p>
+</div>
+<div class="testimonial">
+    <p><strong>Trần Tiến:</strong> "Dịch vụ khách hàng tuyệt vời! Tôi rất hài lòng với sự hỗ trợ của đội ngũ."</p>
+</div>
+
+<h2>Thông Tin Liên Hệ</h2>
+<p>Để biết thêm thông tin, vui lòng liên hệ với chúng tôi qua các kênh dưới đây:</p>
+<ul>
+    <li>Email: <a href="mailto:lyvanquyen2k4@gmail.com">lyvanquyen2k4@gmail.com</a></li>
+    <li>Điện thoại: <a href="tel:0343228004">0343228004</a></li>
+</ul>
+
+<h2>Đăng Ký Nhận Thông Báo</h2>
+<p>Đăng ký để nhận thông tin mới nhất về các hoạt động và sự kiện của chúng tôi:</p>
+<form id="newsletter-form" onsubmit="return subscribeNewsletter(event)">
+    <input type="email" placeholder="Nhập email của bạn" required>
+    <button type="submit" class="cta-button">Đăng ký</button>
+</form>
+<p class="confirmation-message" id="confirmation-message">Cảm ơn bạn đã đăng ký!</p>
+
+</main>
 <footer>
-    <p>&copy; Được cấp bởi QuyênVN.com</p>
+    <p>&copy; 2024 Được cấp bởi QuyếnVN.com</p>
+    <p>
+        <a href="https://www.facebook.com/profile.php?id=100088268732998" style="color: #fff; text-decoration: underline;">Theo dõi chúng tôi trên Facebook</a>
+    </p>
+    <p>
+        <a href="https://www.instagram.com" style="color: #fff; text-decoration: underline;">Instagram</a> |
+        <a href="https://twitter.com" style="color: #fff; text-decoration: underline;">Twitter</a>
+    </p>
 </footer>
 
 <script>
-function helloWorld() {
-            alert("Hello World!");
-            // const menu = document.getElementById("menu");
-            // menu.style.display = "none";
-        }
+    function helloWorld() { 
+        alert("Chào mừng bạn đến với trang chủ!");
+    }
+
+    function subscribeNewsletter(event) {
+        event.preventDefault(); // Ngăn không cho form gửi đi
+        document.getElementById('confirmation-message').style.display = 'block';
+        return false; // Không gửi form
+    }
 </script>
 
 </body>
