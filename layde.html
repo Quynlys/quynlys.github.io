@@ -79,7 +79,6 @@
                 const questions = jsonData.data[0].test;
                 // nếu không chứa trường test thì lấy mảng data hiển thị điểm mỗi lần làm
                 if (questions === undefined) {
-                    openLink();
                     const data = jsonData.data;
                     data.forEach((item, index) => {
                         const questionDiv = document.createElement('div');
@@ -91,7 +90,6 @@
                 } else {
                     // hiển thị các câu hỏi và đáp án
                     displayQuestions(questions);
-                    openLink();
                 }
                 
             });
