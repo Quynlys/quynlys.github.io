@@ -1,15 +1,22 @@
 import java.util.Scanner;
 
 public class Tong {
+    public int solve(int x)
+    {
+        int res = 0;
+        for (int i = 1 ; i <= x ; i++)
+        {
+            res += i * 11;
+        }
+        return res;
+    }
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         
         System.out.print("Nhap N: ");
         int N = scanner.nextInt();
-        
-        long S = (11L * N * (N + 1)) / 2;
-        
-        System.out.println("Tong S = " + S);
+                
+        System.out.println("Tong S = " solve(N));
         
         scanner.close();
     }
