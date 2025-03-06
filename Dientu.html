@@ -1,0 +1,649 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kéo thả từ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 500px;
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+
+        .drop-container {
+            border: 2px dashed #ccc;
+            min-height: 50px;
+            margin: 20px 0;
+            padding: 10px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .word-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 10px;
+            padding: 10px;
+            border: 2px dashed #ccc;
+            background-color: #f0f0f0;
+            flex-wrap: wrap;
+        }
+
+        .word {
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            user-select: none;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        #nextButton {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #nextButton:hover {
+            background-color: #218838;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .word-container .word {
+            pointer-events: auto;
+        }
+    </style>
+<style>.--savior-overlay-transform-reset {
+  transform: none !important;
+}
+.--savior-overlay-z-index-top {
+  z-index: 2147483643 !important;
+}
+.--savior-overlay-position-relative {
+  position: relative;
+}
+.--savior-overlay-position-static {
+  position: static !important;
+}
+.--savior-overlay-overflow-hidden {
+  overflow: hidden !important;
+}
+.--savior-overlay-overflow-x-visible {
+  overflow-x: visible !important;
+}
+.--savior-overlay-overflow-y-visible {
+  overflow-y: visible !important;
+}
+.--savior-overlay-z-index-reset {
+  z-index: auto !important;
+}
+.--savior-overlay-display-none {
+  display: none !important;
+}
+.--savior-overlay-clearfix {
+  clear: both;
+}
+.--savior-overlay-reset-filter {
+  filter: none !important;
+  backdrop-filter: none !important;
+}
+.--savior-tooltip-host {
+  z-index: 9999;
+  position: absolute;
+  top: 0;
+}
+/*Override css styles for Twitch.tv*/
+main.--savior-overlay-z-index-reset {
+  z-index: auto !important;
+}
+.modal__backdrop.--savior-overlay-z-index-reset {
+  position: static !important;
+}
+main.--savior-overlay-z-index-top {
+  z-index: auto !important;
+}
+main.--savior-overlay-z-index-top .channel-root__player-container + div,
+main.--savior-overlay-z-index-top .video-player-hosting-ui__container + div {
+  opacity: 0.1;
+}
+/*Dirty hack for facebook big video page e.g: https://www.facebook.com/abc/videos/...*/
+.--savior-backdrop {
+  position: fixed !important;
+  z-index: 2147483642 !important;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw !important;
+  background-color: rgba(0,0,0,0.9);
+}
+.--savior-overlay-twitter-video-player {
+  position: fixed;
+  width: 80%;
+  height: 80%;
+  top: 10%;
+  left: 10%;
+}
+.--savior-overlay-z-index-reset [class*="DivSideNavContainer"],
+.--savior-overlay-z-index-reset [class*="DivHeaderContainer"],
+.--savior-overlay-z-index-reset [class*="DivBottomContainer"],
+.--savior-overlay-z-index-reset [class*="DivCategoryListWrapper"],
+.--savior-overlay-z-index-reset [data-testid="sidebarColumn"],
+.--savior-overlay-z-index-reset header[role="banner"],
+.--savior-overlay-z-index-reset [data-testid="cellInnerDiv"]:not(.--savior-overlay-z-index-reset),
+.--savior-overlay-z-index-reset [aria-label="Home timeline"]>div:first-child,
+.--savior-overlay-z-index-reset [aria-label="Home timeline"]>div:nth-child(3) {
+  z-index: -1 !important;
+}
+.--savior-overlay-z-index-reset [data-testid="cellInnerDiv"] .--savior-backdrop+div {
+  z-index: 2147483643 !important;
+}
+.--savior-overlay-z-index-reset [data-testid="primaryColumn"]>[aria-label="Home timeline"] {
+  z-index: 0 !important;
+}
+.--savior-overlay-z-index-reset#mtLayer,
+.--savior-overlay-z-index-reset.media-layer {
+  z-index: 3000 !important;
+}
+.--savior-overlay-position-relative [class*="SecBar_secBar_"],
+.--savior-overlay-position-relative .woo-box-flex [class*="Frame_top_"] {
+  z-index: 0 !important;
+}
+.--savior-overlay-position-relative .vue-recycle-scroller__item-view:not(.--savior-overlay-z-index-reset),
+.--savior-overlay-position-relative .woo-panel-main[class*="BackTop_main_"],
+.--savior-overlay-position-relative [class*="Main_side_"] {
+  z-index: -1 !important;
+}
+/* Fix conflict css with zingmp3 */
+.zm-video-modal.--savior-overlay-z-index-reset {
+  position: absolute;
+}
+/* Dirty hack for xvideos99 */
+#page #main.--savior-overlay-z-index-reset {
+  z-index: auto !important;
+}
+/* Overlay for ok.ru */
+#vp_w.--savior-overlay-z-index-reset.media-layer.media-layer__video {
+  overflow-y: hidden;
+  z-index: 2147483643 !important;
+}
+/* Fix missing controller for tv.naver.com */
+.--savior-overlay-z-index-top.rmc_controller,
+.--savior-overlay-z-index-top.rmc_setting_intro,
+.--savior-overlay-z-index-top.rmc_highlight,
+.--savior-overlay-z-index-top.rmc_control_settings {
+  z-index: 2147483644 !important;
+}
+/* Dirty hack for douyi.com */
+.swiper-wrapper.--savior-overlay-z-index-reset .swiper-slide:not(.swiper-slide-active),
+.swiper-wrapper.--savior-overlay-transform-reset .swiper-slide:not(.swiper-slide-active) {
+  display: none;
+}
+.videoWrap + div > div {
+  pointer-events: unset;
+}
+/* Dirty hack for fpt.ai */
+.mfp-wrap.--savior-overlay-z-index-top {
+  position: relative;
+}
+.mfp-wrap.--savior-overlay-z-index-top .mfp-close {
+  display: none;
+}
+.mfp-wrap.--savior-overlay-z-index-top .mfp-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+section.--savior-overlay-z-index-reset>main[role="main"].--savior-overlay-z-index-reset + nav {
+  z-index: -1 !important;
+}
+section.--savior-overlay-z-index-reset>main[role="main"].--savior-overlay-z-index-reset section.--savior-overlay-z-index-reset div.--savior-overlay-z-index-reset ~ div {
+  position: relative;
+}
+.watching-movie #video-player.--savior-overlay-z-index-top {
+  z-index: 2147483644 !important;
+}
+div[class^="tiktok"].--savior-overlay-z-index-reset {
+  z-index: 2147483644 !important;
+}
+.--savior-lightoff-fix section:not(:has([class*="--savior-overlay-"])),
+.--savior-lightoff-fix section.section_video ~ section {
+  z-index: -1;
+  position: relative;
+}
+.--savior-lightoff-fix header,
+.--savior-lightoff-fix footer,
+.--savior-lightoff-fix .top-header,
+.--savior-lightoff-fix .swiper-container,
+.--savior-lightoff-fix #to_top,
+.--savior-lightoff-fix #button-adblock {
+  z-index: -1 !important;
+}
+@-moz-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-o-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+</style></head>
+
+<body>
+    <div class="container">
+        <h1>Hoàn thành câu:</h1>
+
+        <div id="section1" class="question-section">
+            <div id="sentence1" class="drop-container"></div>
+            <div class="word-container" id="word-container1">
+                
+                
+                
+                
+                
+                
+                
+                
+            <div class="word" id="word5" data-order="5">when</div><div class="word" id="word8" data-order="8">at high school?</div><div class="word" id="word4" data-order="4">play</div><div class="word" id="word6" data-order="6">you</div><div class="word" id="word3" data-order="3">you</div><div class="word" id="word2" data-order="2">could</div><div class="word" id="word1" data-order="1">What sport</div><div class="word" id="word7" data-order="7">were</div></div>
+            <button id="checkButton1">Kiểm tra câu</button>
+            <div id="result1"></div>
+            <button id="nextButton1" class="hidden">Tiếp theo</button>
+        </div>
+
+        <div id="section2" class="question-section">
+            <div id="sentence2" class="drop-container"></div>
+            <div class="word-container" id="word-container2">
+                
+                
+                
+                
+                
+                
+            <div class="word" id="word9" data-order="1">Why</div><div class="word" id="word10" data-order="2">do</div><div class="word" id="word14" data-order="6">the sporting events?</div><div class="word" id="word12" data-order="4">have to</div><div class="word" id="word13" data-order="5">organize</div><div class="word" id="word11" data-order="3">we</div></div>
+            <button id="checkButton2">Kiểm tra câu</button>
+            <div id="result2"></div>
+            <button id="nextButton2" class="hidden">Tiếp theo</button>
+        </div>
+
+        <div id="section3" class="question-section">
+            <div id="sentence3" class="drop-container"></div>
+            <div class="word-container" id="word-container3">
+                
+                
+                
+                
+                
+                
+                
+            <div class="word" id="word20" data-order="6">you</div><div class="word" id="word21" data-order="7">play?</div><div class="word" id="word18" data-order="4">musical instrument</div><div class="word" id="word17" data-order="3">of</div><div class="word" id="word16" data-order="2">kind</div><div class="word" id="word19" data-order="5">can</div><div class="word" id="word15" data-order="1">What</div></div>
+            <button id="checkButton3">Kiểm tra câu</button>
+            <div id="result3"></div>
+            <button id="nextButton3" class="hidden">Tiếp theo</button>
+        </div>
+
+        <div id="section4" class="question-section">
+            <div id="sentence4" class="drop-container"></div>
+            <div class="word-container" id="word-container4">
+                
+                
+                
+                
+                
+                
+                
+                
+            <div class="word" id="word24" data-order="3">do</div><div class="word" id="word25" data-order="4">judo</div><div class="word" id="word28" data-order="7">fit and</div><div class="word" id="word23" data-order="2">must</div><div class="word" id="word29" data-order="8">stay healthy.</div><div class="word" id="word26" data-order="5">to keep</div><div class="word" id="word22" data-order="1">They</div><div class="word" id="word27" data-order="6">them</div></div>
+            <button id="checkButton4">Kiểm tra câu</button>
+            <div id="result4"></div>
+            <button id="nextButton4" class="hidden">Tiếp theo</button>
+        </div>
+
+        <div id="section5" class="question-section">
+            <div id="sentence5" class="drop-container"></div>
+            <div class="word-container" id="word-container5">
+                
+                
+                
+                
+                
+                
+                
+                
+            <div class="word" id="word30" data-order="1">She</div><div class="word" id="word32" data-order="3">go</div><div class="word" id="word36" data-order="7">too expensive</div><div class="word" id="word35" data-order="6">it’s</div><div class="word" id="word33" data-order="4">horse racing</div><div class="word" id="word31" data-order="2">cannot</div><div class="word" id="word34" data-order="5">because</div><div class="word" id="word37" data-order="8">for her.</div></div>
+            <button id="checkButton5">Kiểm tra câu</button>
+            <div id="result5"></div>
+            <button id="nextButton5" class="hidden">Tiếp theo</button>
+        </div>
+
+        <div id="section6" class="question-section">
+            <div id="sentence6" class="drop-container"></div>
+            <div class="word-container" id="word-container6">
+                
+                
+                
+                
+                
+                
+                
+                
+            <div class="word" id="word44" data-order="7">we</div><div class="word" id="word40" data-order="3">in</div><div class="word" id="word39" data-order="2">play football</div><div class="word" id="word45" data-order="8">were students.</div><div class="word" id="word41" data-order="4">football ground</div><div class="word" id="word38" data-order="1">We’d</div><div class="word" id="word42" data-order="5">at school</div><div class="word" id="word43" data-order="6">when</div></div>
+            <button id="checkButton6">Kiểm tra câu</button>
+            <div id="result6"></div>
+            <button id="nextButton6" class="hidden">Tiếp theo</button>
+        </div>
+
+        <div id="section7" class="question-section">
+            <div id="sentence7" class="drop-container"></div>
+            <div class="word-container" id="word-container7">
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            <div class="word" id="word52" data-order="7">a live</div><div class="word" id="word54" data-order="9">by Black Pink?</div><div class="word" id="word51" data-order="6">to attend</div><div class="word" id="word47" data-order="2">think</div><div class="word" id="word46" data-order="1">Do you</div><div class="word" id="word50" data-order="5">great</div><div class="word" id="word48" data-order="3">it would</div><div class="word" id="word53" data-order="8">Korean concert</div><div class="word" id="word49" data-order="4">be</div></div>
+            <button id="checkButton7">Kiểm tra câu</button>
+            <div id="result7"></div>
+            <button id="nextButton7" class="hidden">Tiếp theo</button>
+        </div>
+
+        <div id="section8" class="question-section">
+            <div id="sentence8" class="drop-container"></div>
+            <div class="word-container" id="word-container8">
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            <div class="word" id="word55" data-order="1">My father</div><div class="word" id="word56" data-order="2">wouldn’t</div><div class="word" id="word57" data-order="3">often sleep</div><div class="word" id="word58" data-order="4">in</div><div class="word" id="word59" data-order="5">the afternoon</div><div class="word" id="word60" data-order="6">at noon</div><div class="word" id="word61" data-order="7">so</div><div class="word" id="word62" data-order="8">he felt</div><div class="word" id="word63" data-order="9">really tired.</div></div>
+            <button id="checkButton8">Kiểm tra câu</button>
+            <div id="result8"></div>
+            <button id="nextButton8" class="hidden">Tiếp theo</button>
+        </div>
+
+        <div id="section9" class="question-section">
+            <div id="sentence9" class="drop-container"></div>
+            <div class="word-container" id="word-container9">
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            <div class="word" id="word71" data-order="8">to travel</div><div class="word" id="word64" data-order="1">If we</div><div class="word" id="word70" data-order="7">enough money</div><div class="word" id="word65" data-order="2">won</div><div class="word" id="word66" data-order="3">this sports</div><div class="word" id="word69" data-order="6">have</div><div class="word" id="word67" data-order="4">competition</div><div class="word" id="word68" data-order="5">we would</div><div class="word" id="word72" data-order="9">to Thailand.</div></div>
+            <button id="checkButton9">Kiểm tra câu</button>
+            <div id="result9"></div>
+            <button id="nextButton9" class="hidden">Tiếp theo</button>
+        </div>
+
+        <div id="section10" class="question-section">
+            <div id="sentence10" class="drop-container"></div>
+            <div class="word-container" id="word-container10">
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            <div class="word" id="word82" data-order="10">or piano.</div><div class="word" id="word77" data-order="5">to learn</div><div class="word" id="word76" data-order="4">idea</div><div class="word" id="word81" data-order="9">like guitar</div><div class="word" id="word75" data-order="3">a good</div><div class="word" id="word74" data-order="2">be</div><div class="word" id="word73" data-order="1">It would</div><div class="word" id="word78" data-order="6">to play</div><div class="word" id="word79" data-order="7">a musical</div><div class="word" id="word80" data-order="8">instrument</div></div>
+            <button id="checkButton10">Kiểm tra câu</button>
+            <div id="result10"></div>
+            <button id="nextButton10" class="hidden">Tiếp theo</button>
+        </div>
+
+        <div id="section11" class="question-section">
+            <div id="sentence11" class="drop-container"></div>
+            <div class="word-container" id="word-container11">
+                
+                
+                
+                
+                
+                
+            <div class="word" id="word83" data-order="1">Photos of</div><div class="word" id="word86" data-order="4">on social media</div><div class="word" id="word88" data-order="6">by Tom.</div><div class="word" id="word84" data-order="2">free-time activities</div><div class="word" id="word85" data-order="3">are shared</div><div class="word" id="word87" data-order="5">every day</div></div>
+            <button id="checkButton11">Kiểm tra câu</button>
+            <div id="result11"></div>
+            <button id="nextButton11" class="hidden">Tiếp theo</button>
+        </div>
+
+        <div id="section12" class="question-section">
+            <div id="sentence12" class="drop-container"></div>
+            <div class="word-container" id="word-container12">
+                
+                
+                
+                
+                
+                
+            <div class="word" id="word89" data-order="1">The screen</div><div class="word" id="word90" data-order="2">is usually</div><div class="word" id="word91" data-order="3">turned off</div><div class="word" id="word92" data-order="4">after ten minutes</div><div class="word" id="word93" data-order="5">to save</div><div class="word" id="word94" data-order="6">battery power.</div></div>
+            <button id="checkButton12">Kiểm tra câu</button>
+            <div id="result12"></div>
+            <button id="nextButton12" class="hidden">Tiếp theo</button>
+        </div>
+
+        <div id="section13" class="question-section">
+            <div id="sentence13" class="drop-container"></div>
+            <div class="word-container" id="word-container13">
+                
+                
+                
+                
+                
+                
+                
+            <div class="word" id="word101" data-order="7">on Instagram?</div><div class="word" id="word100" data-order="6">or actors</div><div class="word" id="word99" data-order="5">singers</div><div class="word" id="word98" data-order="4">any famous</div><div class="word" id="word97" data-order="3">follow</div><div class="word" id="word96" data-order="2">you</div><div class="word" id="word95" data-order="1">Do</div></div>
+            <button id="checkButton13">Kiểm tra câu</button>
+            <div id="result13"></div>
+            <button id="nextButton13" class="hidden">Tiếp theo</button>
+        </div>
+
+        <div id="section14" class="question-section">
+            <div id="sentence14" class="drop-container"></div>
+            <div class="word-container" id="word-container14">
+                
+                
+                
+                
+                
+                
+                
+            <div class="word" id="word105" data-order="4">you</div><div class="word" id="word108" data-order="7">for information?</div><div class="word" id="word104" data-order="3">do</div><div class="word" id="word107" data-order="6">to search</div><div class="word" id="word103" data-order="2">tools</div><div class="word" id="word106" data-order="5">use</div><div class="word" id="word102" data-order="1">What</div></div>
+            <button id="checkButton14">Kiểm tra câu</button>
+            <div id="result14"></div>
+            <button id="nextButton14" class="hidden">Tiếp theo</button>
+        </div>
+
+        <div id="section15" class="question-section">
+            <div id="sentence15" class="drop-container"></div>
+            <div class="word-container" id="word-container15">
+                
+                
+                
+                
+                
+                
+            <div class="word" id="word114" data-order="6">your computer?</div><div class="word" id="word113" data-order="5">on</div><div class="word" id="word112" data-order="4">saved</div><div class="word" id="word111" data-order="3">important information</div><div class="word" id="word110" data-order="2">is</div><div class="word" id="word109" data-order="1">How</div></div>
+            <button id="checkButton15">Kiểm tra câu</button>
+            <div id="result15"></div>
+            <button id="nextButton15" class="hidden">Tiếp theo</button>
+        </div>
+    </div>
+
+    <script>
+        const checkButtons = document.querySelectorAll('button[id^="checkButton"]');
+        const nextButtons = document.querySelectorAll('button[id^="nextButton"]');
+        const resultDivs = document.querySelectorAll('div[id^="result"]');
+        const questionSections = document.querySelectorAll('.question-section');
+        const wordContainers = document.querySelectorAll('.word-container');
+
+        function shuffleWords(wordContainer) {
+            const wordArray = Array.from(wordContainer.children);
+            wordArray.sort(() => Math.random() - 0.5);
+            wordArray.forEach(word => wordContainer.appendChild(word));
+        }
+
+        document.querySelectorAll('.word').forEach(word => {
+            word.addEventListener('click', () => {
+                const dropContainer = word.closest('.question-section').querySelector('.drop-container');
+                if (!dropContainer.contains(word)) {
+                    dropContainer.appendChild(word);
+                }
+            });
+        });
+
+        questionSections.forEach(section => {
+            section.querySelector('.drop-container').addEventListener('click', (e) => {
+                if (e.target.classList.contains('word')) {
+                    const word = e.target;
+                    const wordContainer = section.querySelector('.word-container');
+                    wordContainer.appendChild(word);
+                }
+            });
+        });
+
+        checkButtons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+                const dropContainer = questionSections[index].querySelector('.drop-container');
+                const droppedWords = Array.from(dropContainer.children);
+                const droppedOrder = droppedWords.map(word => parseInt(word.dataset.order));
+                const correctOrder = getCorrectOrderForSentence(index);
+
+                if (JSON.stringify(droppedOrder) === JSON.stringify(correctOrder)) {
+                    resultDivs[index].textContent = "Câu đúng!";
+                    resultDivs[index].style.color = 'green';
+                    nextButtons[index].classList.remove('hidden');
+                } else {
+                    resultDivs[index].textContent = "Câu sai, vui lòng thử lại!";
+                    resultDivs[index].style.color = 'red';
+                    nextButtons[index].classList.add('hidden');
+                }
+            });
+        });
+
+        nextButtons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+                questionSections[index].classList.add('hidden');
+                if (index + 1 < questionSections.length) {
+                    questionSections[index + 1].classList.remove('hidden');
+                    shuffleWords(wordContainers[index + 1]);
+                }
+            });
+        });
+
+        function getCorrectOrderForSentence(index) {
+            switch (index) {
+                case 0: return [1, 2, 3, 4, 5, 6, 7, 8]; // What sport could you play when you were at high school?
+                case 1: return [1, 2, 3, 4, 5, 6]; // Why do we have to organize the sporting events?
+                case 2: return [1, 2, 3, 4, 5, 6, 7]; // What kind of musical instrument can you play?
+                case 3: return [1, 2, 3, 4, 5, 6, 7, 8]; // They must do judo to keep them fit and stay healthy.
+                case 4: return [1, 2, 3, 4, 5, 6, 7, 8]; // She cannot go horse racing because it’s too expensive for her.
+                case 5: return [1, 2, 3, 4, 5, 6, 7, 8]; // We’d play football in football ground at school when we were students.
+                case 6: return [1, 2, 3, 4, 5, 6, 7, 8, 9]; // Do you think it would be great to attend a live Korean concert by Black Pink?
+                case 7: return [1, 2, 3, 4, 5, 6, 7, 8, 9]; // My father wouldn’t often sleep in the afternoon at noon so he felt really tired.
+                case 8: return [1, 2, 3, 4, 5, 6, 7, 8, 9]; // If we won this sports competition we would have enough money to travel to Thailand.
+                case 9: return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; // It would be a good idea to learn to play a musical instrument like guitar or piano.
+                case 10: return [1, 2, 3, 4, 5, 6]; // Photos of free-time activities are shared on social media every day by Tom.
+                case 11: return [1, 2, 3, 4, 5, 6]; // The screen is usually turned off after ten minutes to save battery power.
+                case 12: return [1, 2, 3, 4, 5, 6, 7]; // Do you follow any famous singers or actors on Instagram?
+                case 13: return [1, 2, 3, 4, 5, 6, 7]; // What tools do you use to search for information?
+                case 14: return [1, 2, 3, 4, 5, 6]; // How is important information saved on your computer?
+                default: return [];
+            }
+        }
+
+        window.onload = () => {
+            for (let i = 0; i < 15; i++) {
+                shuffleWords(wordContainers[i]);
+            }
+        };
+    </script>
+
+
+</body><en2vi-host class="corom-element" version="3" style="all: initial; position: absolute; top: 0; left: 0; right: 0; height: 0; margin: 0; text-align: left; z-index: 10000000000; pointer-events: none; border: none; display: block"></en2vi-host><savior-host style="all: unset; position: absolute; top: 0; z-index: 99999999999999; display: block !important; overflow: unset"></savior-host></html>
