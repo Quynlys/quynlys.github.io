@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Trắc Nghiệm</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .quiz-container {
+            background: white;
+            padding: 20px;
+            width: 50%;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #333;
+        }
+        
+        .question {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .answers label {
+            display: block;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+        
+        button {
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        
+        button:hover {
+            background: #218838;
+        }
+        
+        #result {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Bài Trắc Nghiệm</h1>
+        
+        <button id="start">Bắt đầu làm bài</button>
+
+        <div id="quiz" style="display: none;"></div>
+
+        <button id="submit" style="display: none;">Nộp bài</button>
+
+        <p id="result"></p>
+
+        <button id="restart" style="display: none;">Làm lại</button>
+    </div>
+
+    <script>
+        const quizData = [
+            { question: "1 + 1 bằng bao nhiêu?", answers: ["1", "2", "3", "4"], correct: "2" },
+            { question: "Thủ đô của Việt Nam là gì?", answers: ["Hà Nội", "Hải Phòng", "TP.HCM", "Đà Nẵng"], correct: "Hà Nội" },
+            { question: "Màu của lá cây là gì?", answers: ["Đỏ", "Vàng", "Xanh", "Tím"], correct: "Xanh" }
+        ];
+
+        const quizContainer = document.getElementById("quiz");
+        const submitButton = document.getElementById("submit");
+        const resultContainer = document.getElementById("result");
+        const restartButton = document.getElementById("restart");
+
+        function loadQuiz() {
+            let quizHTML = "";
+            quizData.forEach((q, index) => {
+                quizHTML += `
+                    <div class="question">${q.question}</div>
+                    <div class="answers">
+                        ${q.answers.map(answer => `
+                            <label>
+                                <input type="radio" name="question${index}" value="${answer}">
+                                ${answer}
+                            </label>
+                        `).join("")}
+                    </div>
+                `;
+            });
+            quizContainer.innerHTML = quizHTML;
+        }
+
+        function checkAnswers() {
+            let score = 0;
+            quizData.forEach((q, index) => {
+                const selectedAnswer = document.querySelector(`input[name="question${index}"]:checked`);
+                if (selectedAnswer && selectedAnswer.value === q.correct) {
+                    score++;
+                }
+            });
+
+            resultContainer.innerHTML = `Bạn đã trả lời đúng ${score}/${quizData.length} câu!`;
+            restartButton.style.display = "inline-block";
+        }
+
+        document.getElementById("start").addEventListener("click", function () {
+            document.getElementById("quiz").style.display = "block";
+            submitButton.style.display = "inline-block";
+            this.style.display = "none";
+        });
+
+        submitButton.addEventListener("click", checkAnswers);
+        
+        restartButton.addEventListener("click", function () {
+            location.reload();
+        });
+
+        loadQuiz();
+    </script>
+</body>
+</html>
